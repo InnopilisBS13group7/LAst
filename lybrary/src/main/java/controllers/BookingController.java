@@ -24,36 +24,46 @@ public class BookingController {
 
     @RequestMapping(value = "/takeItem", method = POST)
     public String takeItem(@RequestParam(value = "documentId", required = true, defaultValue = "Not found") String documentId,
-                           @CookieValue(value = "user_code", required = false) Cookie cookieUserCode,
-                           Model model) {
+                           @CookieValue(value = "user_code", required = false) Cookie cookieUserCode
+                           ) {
 
         Date date = new Date();
         DBHandler db;
         try {
             db = new DBHandler();
-            Statement statement = db.getConnection().createStatement();
-            String getQuery = "select * from documents where id = '" + documentId + "'";
-            ResultSet resultSet = statement.executeQuery(getQuery);
-            if (!resultSet.next()) return "false";
-            int currentAmount = resultSet.getInt("amount");
+            Statement userStatement = db.getConnection().createStatement();
+            Statement documentsStatement = db.getConnection().createStatement();
+            String documentGetQuery = "select * from documents where id = " + documentId + "";
+            String usersGetQuery = "select * from users where id = " + getIdFromCookie(cookieUserCode.getValue()) + "";
+            System.out.println(usersGetQuery);
+            ResultSet usersResultSet = userStatement.executeQuery(usersGetQuery);
+            ResultSet documentsResultSet = documentsStatement.executeQuery(documentGetQuery);
+            usersResultSet.next();
+            if (!documentsResultSet.next()) return "false";
+            int currentAmount = documentsResultSet.getInt("amount");
             if (currentAmount == 0) return "false";
             //-- some conditions
             long keepingTime = 0;
-            String userStatus = resultSet.getString("status");
-            if (userStatus.equals("disabled") || userStatus.equals("activated")) keepingTime = 1728000000;
-            else keepingTime = 2 * 1728000000L;
-            System.out.println(keepingTime);
+            String userStatus = usersResultSet.getString("status");
+            String documentStatus = documentsResultSet.getString("status");
+            if (documentStatus.equals("bestseller")) keepingTime = 1209600000;
+            else {
+                if (userStatus.equals("disabled") || userStatus.equals("activated")) keepingTime = 1728000000;
+                else keepingTime = 2 * 1728000000L;
+                System.out.println(keepingTime);
+            }
             //--
 
-            String queryForDocument = "update documents set amount = " + (currentAmount - 1) + "where id = " + documentId;
+            String queryForDocument = "update documents set amount = " + (currentAmount - 1) + " where id = " + documentId;
+            System.out.println(queryForDocument);
             String queryForOrder = "insert into orders (userId, itemId, startTime, finishTime) values (" +
                     getIdFromCookie(cookieUserCode.getValue()) + ", " +
                     documentId + ", " +
                     date.getTime() + ", " +
-                    keepingTime;
+                    keepingTime+")";
 
-            statement.execute(queryForDocument);
-            statement.execute(queryForOrder);
+            documentsStatement.execute(queryForDocument);
+            userStatement.execute(queryForOrder);
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -64,12 +74,6 @@ public class BookingController {
     @RequestMapping(value = "/listItems", method = POST)
     public String listItems() {
         DBHandler db;
-        String divPattern = "<div class=books_box> <img src=1.jpg class=cover width=66px height=100px /> " +
-                "<p class=bookname>Три поросёнка</p>" +
-                " <p class=type>Порно, сказки, животные, зоофилия, хоррор</p>" +
-                " <p class=description>Трое чёрных поросят зря сказали серому волку, что мамы нет дома...</p> " +
-                "<div class=bookit>Book</div> <p class=number>В наличии 3</p> " +
-                "</div>";
         String divList = "";
         try {
             db = new DBHandler();
@@ -109,27 +113,7 @@ public class BookingController {
         return divList;
     }
 
-    public static void main(String[] args) {
 
-        DBHandler db;
-        try {
-            db = new DBHandler();
-            Statement statement = db.getConnection().createStatement();
-            String getQuery = "SELECT * FROM orders";
-            ResultSet resultSet = statement.executeQuery(getQuery);
-            resultSet.next();
-            long longg = resultSet.getLong("startTime");
-            System.out.println(getDate(longg));
-            Date date = new Date();
-//            System.out.println(getIdFromCookie("111222111123456"));
-            long keepingTime = 1728000000L * 2;
-            System.out.println(keepingTime);
-            System.out.println(getDate(date.getTime() + keepingTime));
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println(listItemsC());
-    }
 
     public static String getDate() {
         Date date = new Date();
@@ -148,52 +132,5 @@ public class BookingController {
         return Integer.parseInt(cookieUserCode.substring(6, cookieUserCode.length() - 6));
     }
 
-    public static String listItemsC() {
-        DBHandler db;
-        String divPattern = "<div class=books_box> <img src=1.jpg class=cover width=66px height=100px /> " +
-                "<p class=bookname>Три поросёнка</p>" +
-                " <p class=type>Порно, сказки, животные, зоофилия, хоррор</p>" +
-                " <p class=description>Трое чёрных поросят зря сказали серому волку, что мамы нет дома...</p> " +
-                "<div class=bookit>Book</div> <p class=number>В наличии 3</p> " +
-                "</div>";
-        String divList = "";
-        try {
-            db = new DBHandler();
-            Statement statement = db.getConnection().createStatement();
-            String getQuery = "SELECT * FROM documents";
-            ResultSet resultSet = statement.executeQuery(getQuery);
-            String title, author, description, image, teg, type;
-            int amount;
-            while (resultSet.next()) {
-                title = resultSet.getString("title");
-                author = resultSet.getString("author");
-                description = resultSet.getString("description");
-                amount = resultSet.getInt("amount");
-                teg = resultSet.getString("teg");
-                type = resultSet.getString("type");
-                divList = divList + "<div class=books_box> <img src=1.jpg class=cover width=66px height=100px /> " +
-                        "<p class=bookname>" +
-                        title +
-                        "</p>" +
-                        " <p class=type>" +
-                        teg +
-                        "</p>" +
-                        " <p class=description>" +
-                        description +
-                        "</p> " +
-                        "<div class=bookit>" +
-                        type +
-                        "</div> <p class=number>В наличии " +
-                        amount +
-                        "</p> " +
-                        "</div>";
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
-        return divList;
-    }
 
 }

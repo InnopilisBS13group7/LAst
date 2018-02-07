@@ -6,6 +6,7 @@ $(document).ready(function(){
 	$("#plus_box").css({"margin-top":(hwindow + 8) + "px"});
 	var scroll_testTop = false;
 	var scroll_testBottom = true;
+	var need_scroll = true;
 	if($(window).scrollTop() >= (hwindow - 74)){
 		setTimeout(function(){
 			$("#main_button_box").css({"width":"0px"}, 200).slideUp(0);
@@ -27,7 +28,7 @@ $(document).ready(function(){
 			clearInterval(interval);
 		}, time);
 	}
-	function enter(name){
+	function enter(page){
 		$("#enter_error").animate({"opacity":"0", "padding-top":"0px", "padding-bottom":"0px", "height":"0px", "margin-top":"0px"}, 200).css({"border-top":"none"}).slideUp(0);
 		$("#main_button_box").animate({"width":"0px"}, 200).slideUp(0);
 		$("#more_box").animate({"opacity":"0"}, 500).slideUp(0);
@@ -39,10 +40,10 @@ $(document).ready(function(){
 		$("#second_menu_block").delay(400).animate({"width":"30px"}, 250);
 		$("#third_menu_block").delay(400).animate({"width":"30px"}, 350);
 		$("#avatar").delay(200).css({"border":"2px solid white"}).animate({"width":"28px", "height":"28px", "margin-top":"19px", "margin-left":"-=14px"}, 400);
-		link = '../resources/more.jsp?name=' + name + ' #usercard';
-		$("#more_box20").load(link);
+		$("#more_box20").html(page);
 		$("#style20").load('../resources/style/more.css');
 		$.getScript('../resources/scripts/more.js');
+		need_scroll = false;
 	}
 	function scrollingDown(){
 		$("#enter_error").animate({"opacity":"0", "padding-top":"0px", "padding-bottom":"0px", "height":"0px", "margin-top":"0px"}, 200).css({"border-top":"none"}).slideUp(0);
@@ -80,7 +81,7 @@ $(document).ready(function(){
 	}
 	$(window).scroll(function(){
 		var scroll = $(this).scrollTop();
-        if(scroll >= 0 && scroll < (hwindow - 74)){
+        if(scroll >= 0 && scroll < (hwindow - 74) && need_scroll){
         	//$("#more_box").css({"opacity":(hwindow - scroll - 82) / (hwindow - 82)});
         	//$("#main").css({"margin-top":-(scroll + 8) + "px"});
         	if(scroll_testTop == false)
