@@ -25,14 +25,14 @@ public class BookingController {
     @RequestMapping(value = "/takeItem", method = POST)
     public String takeItem(@RequestParam(value = "documentId", required = true, defaultValue = "Not found") String documentId,
                            @CookieValue(value = "user_code", required = false) Cookie cookieUserCode,
-                           Model model){
+                           Model model) {
 
         Date date = new Date();
         DBHandler db;
-        try{
+        try {
             db = new DBHandler();
             Statement statement = db.getConnection().createStatement();
-            String getQuery = "select * from documents where id = '"+ documentId + "'";
+            String getQuery = "select * from documents where id = '" + documentId + "'";
             ResultSet resultSet = statement.executeQuery(getQuery);
             if (!resultSet.next()) return "false";
             int currentAmount = resultSet.getInt("amount");
@@ -41,28 +41,28 @@ public class BookingController {
             long keepingTime = 0;
             String userStatus = resultSet.getString("status");
             if (userStatus.equals("disabled") || userStatus.equals("activated")) keepingTime = 1728000000;
-            else keepingTime = 2*1728000000L;
+            else keepingTime = 2 * 1728000000L;
             System.out.println(keepingTime);
             //--
 
-            String queryForDocument = "update documents set amount = " + (currentAmount-1) + "where id = " + documentId;
+            String queryForDocument = "update documents set amount = " + (currentAmount - 1) + "where id = " + documentId;
             String queryForOrder = "insert into orders (userId, itemId, startTime, finishTime) values (" +
-                                    getIdFromCookie(cookieUserCode.getValue()) + ", " +
-                                    documentId + ", " +
-                                    date.getTime() + ", " +
-                                    keepingTime;
+                    getIdFromCookie(cookieUserCode.getValue()) + ", " +
+                    documentId + ", " +
+                    date.getTime() + ", " +
+                    keepingTime;
 
             statement.execute(queryForDocument);
             statement.execute(queryForOrder);
 
-        }catch(SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return "true";
     }
 
     @RequestMapping(value = "/listItems", method = POST)
-    public String listItems(){
+    public String listItems() {
         DBHandler db;
         String divPattern = "<div class=books_box> <img src=1.jpg class=cover width=66px height=100px /> " +
                 "<p class=bookname>Три поросёнка</p>" +
@@ -74,18 +74,19 @@ public class BookingController {
         try {
             db = new DBHandler();
             Statement statement = db.getConnection().createStatement();
-            String getQuery = "select * from documents";
+            String getQuery = "SELECT * FROM documents";
             ResultSet resultSet = statement.executeQuery(getQuery);
-            String title, author, description,image,teg,type;
+            String title, author, description, image, teg, type, id;
             int amount;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 title = resultSet.getString("title");
                 author = resultSet.getString("author");
                 description = resultSet.getString("description");
                 amount = resultSet.getInt("amount");
                 teg = resultSet.getString("teg");
                 type = resultSet.getString("type");
-                divList = divList + "<div class=books_box> <img src=1.jpg class=cover width=66px height=100px /> " +
+                id = resultSet.getString("id");
+                divList = divList + "<div class=books_box> <img src=/resources/img/books/1.jpg class=cover width=66px height=100px /> " +
                         "<p class=bookname>" +
                         title +
                         "</p>" +
@@ -95,14 +96,12 @@ public class BookingController {
                         " <p class=description>" +
                         description +
                         "</p> " +
-                        "<div class=bookit>" +
-                        type +
-                        "</div> <p class=number>В наличии " +
+                        "<div class=bookit id=" + id + ">Book</div> <p class=number>В наличии " +
                         amount +
                         "</p> " +
                         "</div>";
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 
@@ -110,44 +109,46 @@ public class BookingController {
         return divList;
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         DBHandler db;
-        try{
+        try {
             db = new DBHandler();
             Statement statement = db.getConnection().createStatement();
-            String getQuery = "select * from orders";
+            String getQuery = "SELECT * FROM orders";
             ResultSet resultSet = statement.executeQuery(getQuery);
             resultSet.next();
             long longg = resultSet.getLong("startTime");
             System.out.println(getDate(longg));
             Date date = new Date();
 //            System.out.println(getIdFromCookie("111222111123456"));
-             long keepingTime = 1728000000L*2;
+            long keepingTime = 1728000000L * 2;
             System.out.println(keepingTime);
-            System.out.println(getDate(date.getTime()+keepingTime));
-        }catch(SQLException e){
+            System.out.println(getDate(date.getTime() + keepingTime));
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         System.out.println(listItemsC());
     }
 
-    public static String getDate(){
+    public static String getDate() {
         Date date = new Date();
         SimpleDateFormat formatForDate = new SimpleDateFormat("dd.MM.yyyy");
         return formatForDate.format(date);
     }
-    public static String getDate(long currentTime){
+
+    public static String getDate(long currentTime) {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis( currentTime );
+        cal.setTimeInMillis(currentTime);
         SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
         return format.format(cal.getTime());
     }
-    public static int getIdFromCookie(String cookieUserCode){
-        return Integer.parseInt(cookieUserCode.substring(6,cookieUserCode.length()-6));
+
+    public static int getIdFromCookie(String cookieUserCode) {
+        return Integer.parseInt(cookieUserCode.substring(6, cookieUserCode.length() - 6));
     }
 
-    public static String listItemsC(){
+    public static String listItemsC() {
         DBHandler db;
         String divPattern = "<div class=books_box> <img src=1.jpg class=cover width=66px height=100px /> " +
                 "<p class=bookname>Три поросёнка</p>" +
@@ -159,11 +160,11 @@ public class BookingController {
         try {
             db = new DBHandler();
             Statement statement = db.getConnection().createStatement();
-            String getQuery = "select * from documents";
+            String getQuery = "SELECT * FROM documents";
             ResultSet resultSet = statement.executeQuery(getQuery);
-            String title, author, description,image,teg,type;
+            String title, author, description, image, teg, type;
             int amount;
-            while(resultSet.next()){
+            while (resultSet.next()) {
                 title = resultSet.getString("title");
                 author = resultSet.getString("author");
                 description = resultSet.getString("description");
@@ -187,7 +188,7 @@ public class BookingController {
                         "</p> " +
                         "</div>";
             }
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
 

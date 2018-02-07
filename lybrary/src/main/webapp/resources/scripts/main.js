@@ -332,7 +332,27 @@ $(document).ready(function(){
 	});
 	$("#booking_system").click(function(){
 		$.post("/listItems", function(result){
-			alert(result);
+			$("#more_box20").animate({"opacity":"0"}, 300).animate({"opacity":"1"}, 300);
+			//link = '../resources/more.jsp?name=' + name + ' #usercard';
+			setTimeout(function(){
+				$("#more_box20").html(result);
+				$("#style20").load('../resources/style/booking.css');
+				$.getScript('../resources/scripts/booking.js');
+			}, 300);
+			$("#first_menu_block").delay(300).animate({"margin-top":"0px"}, 100);
+			$("#third_menu_block").delay(300).animate({"margin-top":"24px"}, 100);
+			setTimeout(function(){
+				rotate($("#first_menu_block"), 100, 0, 45);
+				rotate($("#second_menu_block"), 100, 0, 45);
+			}, 200);
+			rotate($("#third_menu_block"), 300, 0, 135);
+			menu_open = false;
+			setTimeout(function(){
+				$("#first_menu_block, #second_menu_block, #third_menu_block").css({"transform":"rotate(0deg)"}, 100);
+			}, 300)
+			$("#main, #more_box20").animate({"margin-top":"-=100px"}, 300);
+			$("#topic").animate({"margin-top":"+=100px"}, 300);
+			$(".menu_points").animate({"opacity":"0"}, 300).slideUp(0);
 		});
 	});
 });

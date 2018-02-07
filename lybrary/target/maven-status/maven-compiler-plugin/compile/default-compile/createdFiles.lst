@@ -1,5 +1,8 @@
+controllers\BookingController.class
 controllers\EntireController.class
 controllers\RegistrationController.class
 DateBase\DBHandler.class
+controllers\RegistrationControllerTest.class
+controllers\EnterControllerTest.class
 emailHandler\EmailResponse.class
 controllers\EnterController.class
