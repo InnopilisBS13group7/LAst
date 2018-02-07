@@ -36,14 +36,22 @@ public class BookingController {
             Statement ordersStatement = db.getConnection().createStatement();
             String documentGetQuery = "select * from documents where id = " + documentId + "";
             String usersGetQuery = "select * from users where id = " + getIdFromCookie(cookieUserCode.getValue()) + "";
-            String ordersGetQuery = "select * from orders where (userId = " + getIdFromCookie(cookieUserCode.getValue()) + ") and " +
-                    "( itemId = " + documentId + ")";
+            String ordersGetQuery = "select * from orders where userId = " + getIdFromCookie(cookieUserCode.getValue()) + "";
+//            String ordersGetQuery = "select * from orders where (userId = " + getIdFromCookie(cookieUserCode.getValue()) + ") and " +
+//                    "( itemId = " + documentId + ")";
 
             System.out.println(ordersGetQuery);
             ResultSet usersResultSet = userStatement.executeQuery(usersGetQuery);
             ResultSet documentsResultSet = documentsStatement.executeQuery(documentGetQuery);
             ResultSet ordersResultSet = ordersStatement.executeQuery(ordersGetQuery);
-            if (ordersResultSet.next()) return "false";
+
+            boolean check = false;
+            while (ordersResultSet.next()){
+                if (ordersResultSet.getString("itemId").equals(documentId)) {
+                    check = true;
+                }
+            }
+            if (check) return "false";
             usersResultSet.next();
             if (!documentsResultSet.next()) return "false";
             int currentAmount = documentsResultSet.getInt("amount");
@@ -86,7 +94,7 @@ public class BookingController {
             Statement statement = db.getConnection().createStatement();
             String getQuery = "SELECT * FROM documents";
             ResultSet resultSet = statement.executeQuery(getQuery);
-            String title, author, description, image, teg, type, id;
+            String title, author, description, image, teg, type, id, status;
             int amount;
             while (resultSet.next()) {
                 title = resultSet.getString("title");
@@ -96,17 +104,18 @@ public class BookingController {
                 teg = resultSet.getString("teg");
                 type = resultSet.getString("type");
                 id = resultSet.getString("id");
+                status = resultSet.getString("status");
                 divList = divList + "<div class=books_box> <img src=/resources/img/books/1.jpg class=cover width=66px height=100px /> " +
                         "<p class=bookname>" +
                         title +
                         "</p>" +
                         " <p class=type>" +
-                        teg +
+                        teg + " #" + status +
                         "</p>" +
                         " <p class=description>" +
                         description +
                         "</p> " +
-                        "<div class=bookit id=" + id + ">Book</div> <p class=number>В наличии " +
+                        "<div class=bookit id=" + id + ">Book</div> <p class=number>There is " +
                         amount +
                         "</p> " +
                         "</div>";
