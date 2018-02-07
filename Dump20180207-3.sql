@@ -65,7 +65,7 @@ CREATE TABLE `documents` (
 
 LOCK TABLES `documents` WRITE;
 /*!40000 ALTER TABLE `documents` DISABLE KEYS */;
-INSERT INTO `documents` VALUES (1,'ttt','aaa','sss',2,'ssssssssssssssssssssssssssssssssssssss','tyutu','book'),(2,'Title','Author','bestseller',8,'Short description','#book','book');
+INSERT INTO `documents` VALUES (1,'ttt','aaa','sss',1,'ssssssssssssssssssssssssssssssssssssss','tyutu','book'),(2,'Title','Author','bestseller',2,'Short description','#book','book');
 /*!40000 ALTER TABLE `documents` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -83,7 +83,7 @@ CREATE TABLE `orders` (
   `startTime` mediumtext NOT NULL,
   `finishTime` mediumtext NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +92,7 @@ CREATE TABLE `orders` (
 
 LOCK TABLES `orders` WRITE;
 /*!40000 ALTER TABLE `orders` DISABLE KEYS */;
-INSERT INTO `orders` VALUES (11,13,2,'1518012737837','1519222337837'),(12,13,1,'1518013004491','1519741004491');
+INSERT INTO `orders` VALUES (19,16,2,'1518016134837','1519225734837');
 /*!40000 ALTER TABLE `orders` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -112,7 +112,7 @@ CREATE TABLE `users` (
   `cookieId` varchar(20) DEFAULT '0',
   `status` varchar(10) DEFAULT 'disabled',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -121,7 +121,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'l.lol@innopolis.ru','$2a$10$wqBSqtAOHDeFSNmF81JlkODAYyRapR8qP1sbYbMud/u8d/2t3Fe.K','name','surname','0','disabled'),(2,'l@innopolis.ru','$2a$10$OBBMrk1d1s9GOsn9RzCgluAR33xSF1T4nEIh0r55UNkNnOEduQvyS','alia','alien','cookieId','disabled'),(3,'s@innopolis.ru','$2a$10$Vo9Fullou7Xp2QbJgSKuCuAvMOhSWNFyqOoBj8XB6iuEIYXh3DQE6','syoma','kiss','3445253590233','disabled'),(4,'q@innopolis.ru','$2a$10$Y7La7ZX6s2irxzozDfJCTuzFMY02JRruwSNYkyQKyqsYStMYxt9FW','qq','qq','2003914364682','disabled'),(5,'qq@innopolis.ru','$2a$10$hbW3nlHisDZhAq5ubKLgNuAdRZzLGxZxOx1Rph8g/MlnR7LhgsNTe','qq','qq','2255845232900','disabled'),(6,'d@innopolis.ru','$2a$10$CIiM8.S/JUfWgX1AzS/Bf.72.Xm6Lp7k7H8rH/.CgwlzLCS0tGhw2','dd','dd','0','disabled'),(7,'i.pro@innopolis.ru','$2a$10$hepDomRdnBqeGklGQJTDRO.r0Oud94bBrGFyX73GKWkL8d9cvGuVC','Ilia','Pro','0','disabled'),(8,'g@innopolis.ru','$2a$10$VhGsJh4tIiCECHNQZ.8rzu/uW7wbY/7Sj2oubi9R5h69P94AlKNLy','gg','gg','0','disabled'),(9,'n@innopolis.ru','$2a$10$FEaCcTkyYnIRnI1.746vlOU5jH840lVnhi5xgh2BJcNnG0AJ093/O','nn','nn','0','disabled'),(10,'b@innopolis.ru','$2a$10$GuyE8Ro0o8J2sFRR9YTEiuLuLE4Ot3W9ulG9yk6MRqIJ510SvglWG','bb','bb','0','disabled'),(11,'u@innopolis.ru','$2a$10$wYk.9hmZwJnNyVZXYmLNq.TLyHfS7UpHF6jgvdPvwhafckFxbEdu6','uu','uu','0','disabled'),(12,'email','$2a$10$QOjrsT4awsFipD5PuWmJfeL/3Wx0mdkPxXWMxUwmxGOc7OtRZcs5e','name','surname','0','disabled'),(13,'sk@innopolis.ru','$2a$10$/cZeb5NmoZDEKdIt.dgxLuurMZiaNteau/aqhpqDEAY18h.ncnrt2','Semyon','Kiselyov','40641013314263','disabled'),(14,'Femail','$2a$10$KOGsvinKNnXOlQ6rZhliTe.SpwFwzsF.J4N9TEIkmO4vkt/QZcEfS','Fname','Fsurname','0','disabled'),(15,'Semail','$2a$10$emdHhts0Jm.Psoc/QRQ57eahN6VxmoLP6qz.pcjg7jBCGH/zjOUMa','Sname','Ssurname','0','disabled');
+INSERT INTO `users` VALUES (1,'l.lol@innopolis.ru','$2a$10$wqBSqtAOHDeFSNmF81JlkODAYyRapR8qP1sbYbMud/u8d/2t3Fe.K','name','surname','0','disabled'),(2,'l@innopolis.ru','$2a$10$OBBMrk1d1s9GOsn9RzCgluAR33xSF1T4nEIh0r55UNkNnOEduQvyS','alia','alien','cookieId','disabled'),(3,'s@innopolis.ru','$2a$10$Vo9Fullou7Xp2QbJgSKuCuAvMOhSWNFyqOoBj8XB6iuEIYXh3DQE6','syoma','kiss','3445253590233','disabled'),(4,'q@innopolis.ru','$2a$10$Y7La7ZX6s2irxzozDfJCTuzFMY02JRruwSNYkyQKyqsYStMYxt9FW','qq','qq','2003914364682','disabled'),(5,'qq@innopolis.ru','$2a$10$hbW3nlHisDZhAq5ubKLgNuAdRZzLGxZxOx1Rph8g/MlnR7LhgsNTe','qq','qq','2255845232900','disabled'),(6,'d@innopolis.ru','$2a$10$CIiM8.S/JUfWgX1AzS/Bf.72.Xm6Lp7k7H8rH/.CgwlzLCS0tGhw2','dd','dd','0','disabled'),(7,'i.pro@innopolis.ru','$2a$10$hepDomRdnBqeGklGQJTDRO.r0Oud94bBrGFyX73GKWkL8d9cvGuVC','Ilia','Pro','0','disabled'),(8,'g@innopolis.ru','$2a$10$VhGsJh4tIiCECHNQZ.8rzu/uW7wbY/7Sj2oubi9R5h69P94AlKNLy','gg','gg','0','disabled'),(9,'n@innopolis.ru','$2a$10$FEaCcTkyYnIRnI1.746vlOU5jH840lVnhi5xgh2BJcNnG0AJ093/O','nn','nn','0','disabled'),(10,'b@innopolis.ru','$2a$10$GuyE8Ro0o8J2sFRR9YTEiuLuLE4Ot3W9ulG9yk6MRqIJ510SvglWG','bb','bb','0','disabled'),(11,'u@innopolis.ru','$2a$10$wYk.9hmZwJnNyVZXYmLNq.TLyHfS7UpHF6jgvdPvwhafckFxbEdu6','uu','uu','0','disabled'),(12,'email','$2a$10$QOjrsT4awsFipD5PuWmJfeL/3Wx0mdkPxXWMxUwmxGOc7OtRZcs5e','name','surname','0','disabled'),(13,'sk@innopolis.ru','$2a$10$/cZeb5NmoZDEKdIt.dgxLuurMZiaNteau/aqhpqDEAY18h.ncnrt2','Semyon','Kiselyov','18908013565643','disabled'),(14,'Femail','$2a$10$KOGsvinKNnXOlQ6rZhliTe.SpwFwzsF.J4N9TEIkmO4vkt/QZcEfS','Fname','Fsurname','0','disabled'),(15,'Semail','$2a$10$emdHhts0Jm.Psoc/QRQ57eahN6VxmoLP6qz.pcjg7jBCGH/zjOUMa','Sname','Ssurname','0','disabled'),(16,'faculty@innopolis.ru','$2a$10$wD5kxkqco9eLj6NnGwVVi.QcIQhyvlIfHXj4xxtcKwW/eqZO9gjb6','Faculty','Member','76827916572819','faculty'),(17,'f@innopolis.ru','$2a$10$WS606Ey3mcepcVGCrLwVnuUXQ1PHezlqKz6jMLJCYlekPOo0EY1Km','Faculty','member','0','faculty');
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -134,4 +134,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-02-07 17:31:56
+-- Dump completed on 2018-02-07 18:10:45
