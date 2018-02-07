@@ -1,0 +1,5 @@
+controllers\EntireController.class
+controllers\RegistrationController.class
+DateBase\DBHandler.class
+emailHandler\EmailResponse.class
+controllers\EnterController.class
