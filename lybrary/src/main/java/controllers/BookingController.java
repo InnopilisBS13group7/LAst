@@ -33,11 +33,17 @@ public class BookingController {
             db = new DBHandler();
             Statement userStatement = db.getConnection().createStatement();
             Statement documentsStatement = db.getConnection().createStatement();
+            Statement ordersStatement = db.getConnection().createStatement();
             String documentGetQuery = "select * from documents where id = " + documentId + "";
             String usersGetQuery = "select * from users where id = " + getIdFromCookie(cookieUserCode.getValue()) + "";
-            System.out.println(usersGetQuery);
+            String ordersGetQuery = "select * from orders where (userId = " + getIdFromCookie(cookieUserCode.getValue()) + ") and " +
+                    "( itemId = " + documentId + ")";
+
+            System.out.println(ordersGetQuery);
             ResultSet usersResultSet = userStatement.executeQuery(usersGetQuery);
             ResultSet documentsResultSet = documentsStatement.executeQuery(documentGetQuery);
+            ResultSet ordersResultSet = ordersStatement.executeQuery(ordersGetQuery);
+            if (ordersResultSet.next()) return "false";
             usersResultSet.next();
             if (!documentsResultSet.next()) return "false";
             int currentAmount = documentsResultSet.getInt("amount");
@@ -60,7 +66,7 @@ public class BookingController {
                     getIdFromCookie(cookieUserCode.getValue()) + ", " +
                     documentId + ", " +
                     date.getTime() + ", " +
-                    keepingTime+")";
+                    (date.getTime()+keepingTime)+")";
 
             documentsStatement.execute(queryForDocument);
             userStatement.execute(queryForOrder);

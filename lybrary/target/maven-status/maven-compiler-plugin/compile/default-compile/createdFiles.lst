@@ -1,6 +1,7 @@
 controllers\BookingController.class
 controllers\RegistrationController.class
 DateBase\DBHandler.class
+controllers\BookingControllerTest.class
 controllers\EnterControllerTest.class
 controllers\EnterController.class
 controllers\EntireController.class

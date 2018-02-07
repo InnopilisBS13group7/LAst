@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Random;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -72,15 +74,16 @@ public class EnterController {
             System.out.println(userId);
             String historyQuery = "select * from orders where userId = '" + userId + "'";
             ResultSet ordersResultSet = statement.executeQuery(historyQuery);
-            String title;
+            String title,time;
+            long keepingTime;
             int i = 0;
             int margin = -5;
             while (ordersResultSet.next()) {
                 i++;
-
+                keepingTime = ordersResultSet.getLong("finishTime");
                 booki = booki + "<div class=\"books\" style=\"margin-left:"+ margin +"px\"> " +
                         "<img src=\"/resources/img/books/1.jpg\" width=\"190px\" height=\"289px\" /> " +
-                        "<p class=\"bookname\">"+ "3 PIGS"    +"</p> " +
+                        "<p class=\"bookname\">"+ "3 PIGS ->" + getDate(keepingTime)   +"</p> " +
                         "</div>";
                 margin += 198;
                 if (i % 4 == 0) margin = -5;
@@ -111,6 +114,13 @@ public class EnterController {
             e.printStackTrace();
         }
         return page;
+    }
+
+    public static String getDate(long currentTime) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(currentTime);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        return format.format(cal.getTime());
     }
 
 }

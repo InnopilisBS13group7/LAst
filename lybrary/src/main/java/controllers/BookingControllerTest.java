@@ -39,10 +39,12 @@ public class BookingControllerTest {
         DBHandler db;
         db = new DBHandler();
         Statement statement = db.getConnection().createStatement();
-        statement.executeQuery("SELECT*FROM users WHERE email = '"+"Semail"+"'");
+        statement.executeQuery("SELECT * FROM users WHERE email = '"+"Semail"+"'");
         ResultSet result = statement.getResultSet();
         result.next();
-        Cookie cookie = new Cookie("user_code", result.getString("cookieId"));
+        String cookieS = result.getString("cookieId");
+        System.out.println(cookieS);
+        Cookie cookie = new Cookie("user_code", cookieS);
         bk.takeItem("2",cookie);
 
 
