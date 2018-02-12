@@ -18,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -26,7 +28,7 @@ public class EntireController {
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String index(@RequestParam(value = "name", required = false, defaultValue = "ITP_Project") String name,
+    public String index(//@RequestParam(value = "name", required = false, defaultValue = "ITP_Project") String name,
                         HttpServletRequest request,
                         HttpServletResponse response,
                         @CookieValue(value = "user_code", required = false) Cookie cookieUserCode,
@@ -35,10 +37,46 @@ public class EntireController {
         db = new DBHandler();
         Statement statement = db.getConnection().createStatement();
         String getQuery;
+        String name = "Not", surname = "found:(", chlen = "My dick is very very big", fine = "";
+        String status,page = "[uuue";
+        String booki = "";
+        String userId = "";
         if (cookieUserCode != null) {
             getQuery = "select * from users where cookieId = '" + cookieUserCode.getValue() + "'";
             ResultSet resultSet = statement.executeQuery(getQuery);
-//            if (resultSet.next()) return "index";
+            boolean check = resultSet.next();
+            name = resultSet.getString("name") + " " + resultSet.getString("surname"); 
+            status = resultSet.getString("status");
+            userId = resultSet.getString("id");
+
+            //create page-----
+            Statement historyStatement = db.getConnection().createStatement();
+            System.out.println(userId);
+            String historyQuery = "select * from orders where userId = '" + userId + "'";
+            ResultSet ordersResultSet = statement.executeQuery(historyQuery);
+            String title,time;
+            long keepingTime;
+            int i = 0;
+            int margin = -5;
+            while (ordersResultSet.next()) {
+                i++;
+                keepingTime = ordersResultSet.getLong("finishTime");
+                booki = booki + "<div class=\"books\" style=\"margin-left:"+ margin +"px\"> " +
+                        "<img src=\"/resources/img/books/1.jpg\" width=\"190px\" height=\"289px\" /> " +
+                        "<p class=\"bookname\">"+ "3 PIGS ->" + getDate(keepingTime)   +"</p> " +
+                        "</div>";
+                margin += 198;
+                if (i % 4 == 0) margin = -5;
+
+            }
+
+
+            model.addAttribute("name", name);
+            model.addAttribute("status", status);
+            model.addAttribute("fine", "100$");
+            model.addAttribute("chlen", chlen);
+            model.addAttribute("bookie", booki);
+            if (check) return "usercard";
         }
 //        model.addAttribute("name", name);
         return "index";
@@ -48,5 +86,12 @@ public class EntireController {
     public String hello(@RequestParam(value = "name", required = false, defaultValue = "ITP_Project") String name, Model model) {
         model.addAttribute("name", name);
         return "welcome";
+    }
+
+    public static String getDate(long currentTime) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(currentTime);
+        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        return format.format(cal.getTime());
     }
 }
