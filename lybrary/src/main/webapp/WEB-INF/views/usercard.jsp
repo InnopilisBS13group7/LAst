@@ -25,16 +25,17 @@
         </div>
         <div id=more_box20>
             <div id=usercard>
-            <div id=usercard_avatar class=blocks></div>
-            <div class=blocks id=usercard_info>
-                <p id=name>${name}</p>
-                <p id=settings_bottom>Settings</p>
-                <p class=usercard_info_text1 style=margin-top:-8px>Status:</p>
-                <p class=usercard_info_text1 style=margin-top:22px>fine:</p>
-                <p class=usercard_info_text1 style=margin-top:52px>Chlen:</p>
-                <p class=usercard_info_text2 style=margin-top:-8px>${Status}</p>
-                <p class=usercard_info_text2 style=margin-top:22px>${fine}</p>
-                <p class=usercard_info_text2 style=margin-top:52px>${Chlen}</p>
+                <div id=usercard_avatar class=blocks></div>
+                <div class=blocks id=usercard_info>
+                    <p id=name>${name}</p>
+                    <p id=settings_bottom>Settings</p>
+                    <p class=usercard_info_text1 style=margin-top:-8px>Status:</p>
+                    <p class=usercard_info_text1 style=margin-top:22px>fine:</p>
+                    <p class=usercard_info_text1 style=margin-top:52px>Chlen:</p>
+                    <p class=usercard_info_text2 style=margin-top:-8px>${status}</p>
+                    <p class=usercard_info_text2 style=margin-top:22px>${fine}</p>
+                    <p class=usercard_info_text2 style=margin-top:52px>${chlen}</p>
+                </div>
             </div>
             <div class=blocks id=history>
                 <div class=line>

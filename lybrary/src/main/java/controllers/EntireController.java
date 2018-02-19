@@ -45,6 +45,7 @@ public class EntireController {
             getQuery = "select * from users where cookieId = '" + cookieUserCode.getValue() + "'";
             ResultSet resultSet = statement.executeQuery(getQuery);
             boolean check = resultSet.next();
+            if (!check) return "index";
             name = resultSet.getString("name") + " " + resultSet.getString("surname"); 
             status = resultSet.getString("status");
             userId = resultSet.getString("id");
@@ -75,8 +76,9 @@ public class EntireController {
             model.addAttribute("status", status);
             model.addAttribute("fine", "100$");
             model.addAttribute("chlen", chlen);
-            model.addAttribute("bookie", booki);
-            if (check) return "usercard";
+            model.addAttribute("booki", booki);
+            /*if <check>    */
+            return "usercard";
         }
 //        model.addAttribute("name", name);
         return "index";
