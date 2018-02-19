@@ -18,13 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
-public class EntireController {
+public class EntireController extends controllers.Controller{
 
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
@@ -33,6 +31,7 @@ public class EntireController {
                         HttpServletResponse response,
                         @CookieValue(value = "user_code", required = false) Cookie cookieUserCode,
                         Model model) throws SQLException {
+        System.out.println(getClientIpAddress(request));
         DBHandler db;
         db = new DBHandler();
         Statement statement = db.getConnection().createStatement();
@@ -52,7 +51,7 @@ public class EntireController {
 
             //create page-----
             Statement historyStatement = db.getConnection().createStatement();
-            System.out.println(userId);
+
             String historyQuery = "select * from orders where userId = '" + userId + "'";
             ResultSet ordersResultSet = statement.executeQuery(historyQuery);
             String title,time;
@@ -88,12 +87,5 @@ public class EntireController {
     public String hello(@RequestParam(value = "name", required = false, defaultValue = "ITP_Project") String name, Model model) {
         model.addAttribute("name", name);
         return "welcome";
-    }
-
-    public static String getDate(long currentTime) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(currentTime);
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        return format.format(cal.getTime());
     }
 }

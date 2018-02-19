@@ -246,7 +246,7 @@ body{
 	margin-top:82px;
 }
 #main_menu{
-	position:absolute;
+	position:fixed;
 	width:30px;
 	height:30px;
 	margin-left:calc(50% - 400px);
@@ -270,7 +270,7 @@ body{
 	margin-top:24px;
 }
 #avatar{
-	position:absolute;
+	position:fixed;
 	width:0px;
 	height:0px;
 	margin-left:calc(50% + 384px);
@@ -284,7 +284,7 @@ body{
 	border-radius:28px;
 }
 .menu_points{
-	position:absolute;
+	position:fixed;
 	width:334px;
 	color:white;
 	font-size:25px;
