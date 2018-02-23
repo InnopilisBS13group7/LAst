@@ -48,11 +48,12 @@ public class RegistrationController extends controllers.Controller {
             ResultSet resultSet = statement.executeQuery(getQuery);
             if (resultSet.next()) return "false";
             String encodedPassword = encoder.encode(password);
-            String query = "insert into users (email,password,name,surname) values('"
+            String query = "insert into users (email,password,name,surname,status) values('"
                     + email + "\', \'"
                     + encodedPassword + "\', \'"
                     + name + "\', \'"
-                    + surname + "\')";
+                    + surname + "\', \'"
+                    + "disabled" + "\')";
             statement.execute(query);
             resultSet = statement.executeQuery(getQuery);
             resultSet.next();

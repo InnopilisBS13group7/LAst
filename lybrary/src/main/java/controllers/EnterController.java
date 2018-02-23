@@ -71,11 +71,4 @@ public class EnterController extends controllers.Controller{
         return createUserCardPage(userId);
     }
 
-    public static String getDate(long currentTime) {
-        Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(currentTime);
-        SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        return format.format(cal.getTime());
-    }
-
 }

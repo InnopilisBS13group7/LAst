@@ -1,3 +1,4 @@
+/*
 package controllers;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,4 +23,4 @@ public class EnterControllerTest {
     public void enter() {
 //        assertEquals("Not%20found:(", enter.enter("q", "1", ));
     }
-}
+}*/

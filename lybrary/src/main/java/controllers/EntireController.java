@@ -28,7 +28,6 @@ public class EntireController extends controllers.Controller{
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String index(//@RequestParam(value = "name", required = false, defaultValue = "ITP_Project") String name,
                         HttpServletRequest request,
-                        HttpServletResponse response,
                         @CookieValue(value = "user_code", required = false) Cookie cookieUserCode,
                         Model model) throws SQLException {
         System.out.println(getClientIpAddress(request));
@@ -77,11 +76,21 @@ public class EntireController extends controllers.Controller{
             model.addAttribute("chlen", chlen);
             model.addAttribute("booki", booki);
             /*if <check>    */
+
             return "usercard";
         }
 //        model.addAttribute("name", name);
         return "index";
     }
+
+    @RequestMapping(value = "/exit", method = RequestMethod.POST)
+    public String exit(@CookieValue(value = "user_code", required = false) Cookie cookieUserCode,
+                       HttpServletResponse response){
+        cookieUserCode.setMaxAge(0);
+
+        return "index";
+    }
+
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String hello(@RequestParam(value = "name", required = false, defaultValue = "ITP_Project") String name, Model model) {

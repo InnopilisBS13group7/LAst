@@ -29,8 +29,8 @@ public class Controller {
         return format.format(cal.getTime());
     }
 
-    public static int getIdFromCookie(String cookieUserCode) {
-        return Integer.parseInt(cookieUserCode.substring(6, cookieUserCode.length() - 6));
+    public static String getIdFromCookie(String cookieUserCode) {
+        return cookieUserCode.substring(6, cookieUserCode.length() - 6);
     }
 
     public static boolean createNewCookieForUser(String email, HttpServletResponse response){
@@ -126,5 +126,15 @@ public class Controller {
         return request.getRemoteAddr();
 
     }
+
+    protected boolean isCookieWrong (Cookie cookieUserCode) throws SQLException {
+        DBHandler db;
+        db = new DBHandler();
+        Statement statement = db.getConnection().createStatement();
+        String getQuery = "select * from users where cookieId = '" + cookieUserCode.getValue() + "'";
+        ResultSet resultSet = statement.executeQuery(getQuery);
+        return !resultSet.next();
+    }
+
 
 }

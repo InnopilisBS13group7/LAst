@@ -2,7 +2,7 @@ controllers\BookingController.class
 controllers\EntireController.class
 controllers\RegistrationController.class
 DateBase\DBHandler.class
-controllers\EnterControllerTest.class
+controllers\ActionController.class
 emailHandler\EmailResponse.class
 controllers\Controller.class
 controllers\EnterController.class
